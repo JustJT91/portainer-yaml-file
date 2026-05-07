@@ -1,0 +1,23 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    network_mode: host
+    environment:
+      TZ: "America/New_York"
+      FTLCONF_webserver_api_password: "password_here"
+      FTLCONF_dns_listeningMode: "all"
+      FTLCONF_dns_upstreams: "127.0.0.1#5053"
+    volumes:
+      - "./pihole/pihole:/etc/pihole"
+      - "./pihole/dnsmasq.d:/etc/dnsmasq.d"
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+  unbound:
+    container_name: unbound
+    image: mvance/unbound:latest
+    network_mode: host
+    volumes:
+      - "/home/justjt7704/pi-dns/unbound:/opt/unbound/etc/unbound/"
+    restart: unless-stopped
