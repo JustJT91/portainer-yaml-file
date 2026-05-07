@@ -1,0 +1,41 @@
+    # Enable IPv4, disable IPv6 (unless you specifically use it)
+    do-ip4: yes
+    do-udp: yes
+    do-tcp: yes
+    do-ip6: no
+server:
+    # Listen on all interfaces (loopback and host IP)
+    interface: 0.0.0.0
+    port: 5335
+
+    # Enable IPv4, disable IPv6 (unless you specifically use it)
+    do-ip4: yes
+    do-udp: yes
+    do-tcp: yes
+    do-ip6: no
+
+    # Trust these networks (Crucial for Docker)
+    access-control: 127.0.0.0/8 allow
+    access-control: 10.0.0.0/8 allow
+    access-control: 172.16.0.0/12 allow
+    access-control: 192.168.0.0/16 allow
+
+    # Security & Privacy
+    root-hints: "/opt/unbound/etc/unbound/root.hints"
+    hide-identity: yes
+    hide-version: yes
+    harden-glue: yes
+    harden-dnssec-stripped: yes
+    use-caps-for-id: yes
+    edns-buffer-size: 1232
+
+    # Performance
+    prefetch: yes
+    num-threads: 1
+    so-rcvbuf: 1m
+
+    # Ensure privacy of local IP ranges
+    private-address: 192.168.0.0/16
+    private-address: 169.254.0.0/16
+    private-address: 172.16.0.0/12
+    private-address: 10.0.0.0/8
