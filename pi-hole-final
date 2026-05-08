@@ -1,0 +1,27 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: "America/New_York"
+      FTLCONF_webserver_api_password: "password_here"
+      FTLCONF_dns_listeningMode: "all"
+      FTLCONF_dns_upstreams: "unbound#5335"
+    volumes:
+      - "/home/justjt7704/pi-dns/pihole/config:/etc/pihole"
+      - "/home/justjt7704/pi-dns/pihole/dnsmasq.d:/etc/dnsmasq.d"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: unless-stopped
+
+  unbound:
+    container_name: unbound
+    image: mvance/unbound-rpi:latest
+    volumes:
+      - "/home/justjt7704/pi-dns/unbound:/opt/unbound/etc/unbound/"
+    restart: unless-stopped
